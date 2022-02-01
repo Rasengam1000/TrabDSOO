@@ -6,6 +6,10 @@ class AbstractTela(ABC):
     def __init__(self):
         pass
 
+    @abstractmethod
+    def opcoes(self):
+        pass
+
     def verifica_num_int(self, mensagem: str = '', inteiros_validos: [] = None):
         while True:
             valor_lido = input(mensagem)
