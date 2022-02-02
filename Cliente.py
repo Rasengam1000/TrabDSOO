@@ -8,7 +8,7 @@ class Cliente(ABC):
         self.__sobrenome = sobrenome
         self.__cpf = cpf
         self.__idade = idade
-        #criar o carrinho
+        self.__carrinho = Carrinho(self) #ver se precisa do self
 
     @property
     def nome(self):
