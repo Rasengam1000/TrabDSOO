@@ -23,3 +23,5 @@ class AbstractTela(ABC):
                 if inteiros_validos:
                     print('Valores Validos: ', inteiros_validos)
 
+    def mostra_mensagem(self, msg):
+        print(msg)
