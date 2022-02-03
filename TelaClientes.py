@@ -19,10 +19,10 @@ class TelaClientes(AbstractTela):
 
     def pegar_info(self): #ver se precisa verificar
         print('Dados Cliente')
-        nome = input('Nome: ')
-        sobrenome = input('Sobrenome: ')
-        cpf = input('CPF: ')
-        idade = input('Idade: ')
+        nome = self.verifica_letra('Nome: ')
+        sobrenome = self.verifica_letra('Sobrenome: ')
+        cpf = self.verifica_algarismo('CPF: ')
+        idade = self.verifica_algarismo('Idade: ')
 
         return{'nome': nome, 'sobrenome': sobrenome, 'cpf': cpf, 'idade': idade}
 
@@ -34,5 +34,5 @@ class TelaClientes(AbstractTela):
         print()   #espaco em branco
 
     def selecionar_cliente(self):
-        cpf = input('CPF do cliente desejado: ')
+        cpf = self.verifica_algarismo('CPF do cliente desejado: ')
         return cpf
