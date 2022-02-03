@@ -37,7 +37,7 @@ class ControladorClientes:
         for cliente in self.__clientes:
             if cliente.cpf == cpf:
                 return cliente
-        return None              #pode ser util para outras coisas
+        return None
 
     def alterar_cadastro(self):
         self.listar_cliente()
@@ -53,5 +53,22 @@ class ControladorClientes:
         else:
             self.__telaclientes.mostra_mensagem('Cliente nao existente')
 
+    def info_cliente(self):
+        cpf_cliente = self.__telaclientes.selecionar_cliente()
+        cliente = self.escolhe_cliente_por_cpf(cpf_cliente)
+        if cliente is not None:
+            self.__telaclientes.mostrar_info({'nome': cliente.nome, 'sobrenome': cliente.sobrenome,
+                                              'cpf': cliente.cpf, 'idade': cliente.idade})
+        else:
+            self.__telaclientes.mostra_mensagem('Cliente nao existente')
+
     def retornar(self):
-        pass
+        self.__controladorprincipal.abre_tela() #verificar como esta o nome la
+
+    def abre_tela(self): #verificar se precisa dos parenteses nas opcoes
+        lista_opcoes = {1: self.incluir_cliente(), 2: self.excluir_cliente(), 3: self.alterar_cadastro(),
+                        4: self.info_cliente(), 5: self.listar_cliente(), 0: self.retornar()}
+
+        continua = True
+        while continua:
+            lista_opcoes[self.__telaclientes.opcoes()]()
