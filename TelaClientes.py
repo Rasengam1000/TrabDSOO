@@ -26,9 +26,6 @@ class TelaClientes(AbstractTela):
 
         return{'nome': nome, 'sobrenome': sobrenome, 'cpf': cpf, 'idade': idade}
 
-    def mostra_mensagem(self, msg):  #pode ser util colocar na abstract
-        print(msg)
-
     def mostrar_info(self, dados_cliente):
         print('Nome do Cliente: ', dados_cliente['nome'])
         print('Sobrenome do Cliente ', dados_cliente['sobrenome'])
@@ -36,5 +33,6 @@ class TelaClientes(AbstractTela):
         print('Idade do Cliente ', dados_cliente['idade'])
         print()   #espaco em branco
 
-    def selecionar_cliente(self): #continuar daqui
-        pass
+    def selecionar_cliente(self):
+        cpf = input('CPF do cliente desejado: ')
+        return cpf
