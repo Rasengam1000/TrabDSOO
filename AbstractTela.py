@@ -25,3 +25,22 @@ class AbstractTela(ABC):
 
     def mostra_mensagem(self, msg):
         print(msg)
+
+    def verifica_algarismo(self, mensagem: str = ''):
+        while True:
+            valor_lido = input(mensagem)
+            try:
+                inteiro = int(valor_lido)
+                return inteiro
+            except ValueError:
+                print('A opcao so aceita numeros')
+
+    def verifica_letra(self, mensagem: str = ''):
+        while True:
+            valor_lido = input(mensagem)
+            try:
+                if not valor_lido.isalpha():
+                    raise NameError
+                return valor_lido
+            except NameError:
+                print('A opcao so aceita letras')
