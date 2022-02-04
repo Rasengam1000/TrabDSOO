@@ -17,21 +17,23 @@ class TelaClientes(AbstractTela):
         opcao = self.verifica_num_int('Escolha a opcao: ', [1, 2, 3, 4, 5, 0])
         return opcao
 
-    def pegar_info(self): #ver se precisa verificar
+    def pegar_info(self):
         print('Dados Cliente')
         nome = self.verifica_letra('Nome: ')
         sobrenome = self.verifica_letra('Sobrenome: ')
         cpf = self.verifica_algarismo('CPF: ')
         idade = self.verifica_algarismo('Idade: ')
+        tipo_cliente = self.verifica_resposta('Deseja comprar VIP?: ', ['sim', 'nao'])
 
-        return{'nome': nome, 'sobrenome': sobrenome, 'cpf': cpf, 'idade': idade}
+        return{'nome': nome, 'sobrenome': sobrenome, 'cpf': cpf, 'idade': idade, 'tipo_cliente': tipo_cliente}
 
     def mostrar_info(self, dados_cliente):
         print('Nome do Cliente: ', dados_cliente['nome'])
-        print('Sobrenome do Cliente ', dados_cliente['sobrenome'])
-        print('CPF do Cliente ', dados_cliente['cpf'])
-        print('Idade do Cliente ', dados_cliente['idade'])
-        print()   #espaco em branco
+        print('Sobrenome do Cliente: ', dados_cliente['sobrenome'])
+        print('CPF do Cliente: ', dados_cliente['cpf'])
+        print('Idade do Cliente: ', dados_cliente['idade'])
+        print('Tipo do CLiente: ', dados_cliente['tipo_cliente'])
+        print()
 
     def selecionar_cliente(self):
         cpf = self.verifica_algarismo('CPF do cliente desejado: ')

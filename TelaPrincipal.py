@@ -3,7 +3,7 @@ from ControladorPrincipal import ControladorPrincipal
 
 class TelaPrincipal(AbstractTela):
 
-    def __init__(self, controlador: ControladorPrincipal): #cuidar para o controlador se enviar para criacao da classe
+    def __init__(self, controlador: ControladorPrincipal):
         self.__controlador = controlador
 
     def opcoes(self):
