@@ -1,15 +1,15 @@
 from TelaPrincipal import TelaPrincipal
 
-#from ControladorClientes import ControladorClientes
+from ControladorClientes import ControladorClientes
 from ControladorProduto import ControladorProdutos
-#from ControladorCarrinho import ControladorCarrinho
+from ControladorCarrinho import ControladorCarrinho
 
 
 class ControladorPrincipal:
     def __init__(self):
-        #self.__controlador_clientes = ControladorClientes(self)
+        self.__controlador_clientes = ControladorClientes(self)
         self.__controlador_produtos = ControladorProdutos(self)
-        #self.__controlador_carrinho = ControladorCarrinho(self)
+        self.__controlador_carrinho = ControladorCarrinho(self)
 
         self.__tela_sistema = TelaPrincipal()
 
@@ -19,20 +19,20 @@ class ControladorPrincipal:
     def encerrar_sistema():
         exit(0)
 
-   #@property
-    #def controlador_clientes(self):
-       #return self.__controlador_clientes
+    @property
+    def controlador_clientes(self):
+       return self.__controlador_clientes
 
-    #@property
-    #def controlador_produtos(self):
-        #return self.__controlador_clientes
+    @property
+    def controlador_produtos(self):
+        return self.__controlador_produtos
 
     #@property    
     #def controlador_carrinho(self):
         #return self.__controlador_clientes
 
     def tela_cliente(self):
-        self.__controlador_cliente.abre_tela()
+        self.__controlador_clientes.abre_tela()
 
     def tela_produtos(self):
         self.__controlador_produtos.abre_tela()

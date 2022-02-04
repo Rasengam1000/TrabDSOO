@@ -8,20 +8,26 @@ class ControladorProdutos:
         self.__produtos = []
         self.__controlador_sistema = controlador_sistema
 
-    def incluir_produto(self):
-        codigo,nome,preco = self.__tela_produtos.pegar_info()#.split()
+    @property
+    def produtos(self):
+        return self.__produtos
+
+    def incluir_produto(self): #!impedir duplicatas
+        codigo,nome,preco = self.__tela_produtos.pegar_info()
         if codigo == 0:
             self.__abre_tela
         else:
             self.__produtos.append(Produto(codigo,nome,preco))
 
     def excluir_produto(self):
-        codigo = int(input("Qual o codigo do produto que deseja excluir?: "))
+        codigo = self.__tela_produtos.selecionar_produto(self.__produtos)
         for produto in self.__produtos:
             if produto.codigo == codigo:
-                print(f"{produto.nome} excluído com sucesso")
                 self.__produtos.remove(produto)
-                break
+                self.__tela_produtos.printar(f"\n{produto.nome} excluído com sucesso\n")
+                return
+
+        self.__tela_produtos.printar("\nCodigo informado não encontrado!\n")
 
     def listar_produtos(self):
         for produto in self.__produtos:
