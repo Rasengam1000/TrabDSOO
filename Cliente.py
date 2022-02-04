@@ -3,12 +3,13 @@ from abc import ABC, abstractmethod
 class Cliente(ABC):
 
     @abstractmethod
-    def __init__(self, nome: str, sobrenome: str, cpf: int, idade: int):
+    def __init__(self, nome: str, sobrenome: str, cpf: int, idade: int, tipo_cliente: str):
         self.__nome = nome
         self.__sobrenome = sobrenome
         self.__cpf = cpf
         self.__idade = idade
-        self.__carrinho = Carrinho(self) #ver se precisa do self
+        self.__carrinho = Carrinho(self)
+        self.__tipo_cliente = tipo_cliente
 
     @property
     def nome(self):
@@ -41,3 +42,11 @@ class Cliente(ABC):
     @idade.setter
     def idade(self, idade: int):
         self.__idade = idade
+
+    @property
+    def tipo_cliente(self):
+        return self.__tipo_cliente
+
+    @tipo_cliente.setter
+    def tipo_cliente(self, tipo_cliente: str):
+        self.__tipo_cliente = tipo_cliente

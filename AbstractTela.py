@@ -38,9 +38,23 @@ class AbstractTela(ABC):
     def verifica_letra(self, mensagem: str = ''):
         while True:
             valor_lido = input(mensagem)
+            valor_lido_splitado = valor_lido.split()
             try:
-                if not valor_lido.isalpha():
-                    raise NameError
+                for item in valor_lido_splitado:
+                    if not item.isalpha():
+                        raise NameError
                 return valor_lido
             except NameError:
                 print('A opcao so aceita letras')
+
+    def verifica_resposta(self, mensagem: str = '', respostas: [] = None):
+        while True:
+            valor_lido = input(mensagem)
+            try:
+                if valor_lido not in respostas:
+                    raise ValueError
+                return valor_lido
+            except ValueError:
+                print('Resposta incorreta: Digite uma resposta valida')
+                if respostas:
+                    print('Respostas Validas: ', respostas)

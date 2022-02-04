@@ -12,7 +12,7 @@ class ControladorClientes:
     def incluir_cliente(self):
         dados_cliente = self.__telaclientes.pegar_info()
         cliente = Cliente(dados_cliente['nome'], dados_cliente['sobrenome'], dados_cliente['cpf'],
-                          dados_cliente['idade'])
+                          dados_cliente['idade'], dados_cliente['tipo_cliente'])
         self.__clientes.append(cliente)
 
     def listar_cliente(self):
@@ -21,7 +21,8 @@ class ControladorClientes:
         else:
             for cliente in self.__clientes:
                 self.__telaclientes.mostrar_info({'nome': cliente.nome, 'sobrenome': cliente.sobrenome,
-                                                  'cpf': cliente.cpf, 'idade': cliente.idade})
+                                                  'cpf': cliente.cpf, 'idade': cliente.idade,
+                                                  'tipo_cliente': cliente.tipo_cliente})
 
     def excluir_cliente(self):
         cpf_cliente = self.__telaclientes.selecionar_cliente()
@@ -47,6 +48,7 @@ class ControladorClientes:
             cliente.sobrenome = novo_cadastro['sobrenome']
             cliente.cpf = novo_cadastro['cpf']
             cliente.idade = novo_cadastro['idade']
+            cliente.tipo_cliente = novo_cadastro['tipo_cliente']
             self.__telaclientes.mostra_mensagem('Cadastro alterado com sucesso')
         else:
             self.__telaclientes.mostra_mensagem('Cliente nao existente')
@@ -56,14 +58,15 @@ class ControladorClientes:
         cliente = self.escolhe_cliente_por_cpf(cpf_cliente)
         if cliente is not None:
             self.__telaclientes.mostrar_info({'nome': cliente.nome, 'sobrenome': cliente.sobrenome,
-                                              'cpf': cliente.cpf, 'idade': cliente.idade})
+                                              'cpf': cliente.cpf, 'idade': cliente.idade,
+                                              'tipo_cliente': cliente.tipo_cliente})
         else:
             self.__telaclientes.mostra_mensagem('Cliente nao existente')
 
     def retornar(self):
         self.__controladorprincipal.abre_tela()  #verificar como esta o nome la
 
-    def abre_tela(self):  #verificar se precisa dos parenteses nas opcoes
+    def abre_tela(self):
         lista_opcoes = {1: self.incluir_cliente(), 2: self.excluir_cliente(), 3: self.alterar_cadastro(),
                         4: self.info_cliente(), 5: self.listar_cliente(), 0: self.retornar()}
 
