@@ -23,11 +23,8 @@ class TelaClientes(AbstractTela):
         sobrenome = self.verifica_letra('Sobrenome: ')
         cpf = self.verifica_algarismo('CPF: ')
         idade = self.verifica_algarismo('Idade: ')
-        tipo_cliente = self.verifica_resposta('Deseja comprar VIP?: ', ['sim', 'nao'])
-        if tipo_cliente == 'sim':
-            tipo_cliente = 'vip'
-        else:
-            tipo_cliente = 'comum'
+        tipo_cliente = self.verifica_resposta('Deseja comprar VIP?: ', ['vip', 'comum'])
+
         return{'nome': nome, 'sobrenome': sobrenome, 'cpf': cpf, 'idade': idade, 'tipo_cliente': tipo_cliente}
 
     def mostrar_info(self, dados_cliente):
