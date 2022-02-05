@@ -64,7 +64,7 @@ class ControladorClientes:
             self.__telaclientes.mostra_mensagem('Cliente nao existente')
 
     def retornar(self):
-        self.__controladorprincipal.abre_tela()  #verificar como esta o nome la
+        self.__controladorprincipal.abre_tela()
 
     def abre_tela(self):
         lista_opcoes = {1: self.incluir_cliente(), 2: self.excluir_cliente(), 3: self.alterar_cadastro(),
