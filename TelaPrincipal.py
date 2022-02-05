@@ -7,11 +7,11 @@ class TelaPrincipal(AbstractTela):
         self.__controlador = controlador
 
     def opcoes(self):
-        print('----------- Balada mamacos ----------') # mudar o nome kkkkk
+        print('----------- Balada ----------')
         print('Escolha sua opcao')
         print('1 - Clientes')
         print('2 - Produtos')
         print('3 - Carrinho')
         print('0 - Encerrar Sistema')
-        opcao = self.verifica_num_int('Escolha a opcao: ', [1, 2, 3, 0]) #olhar o controlador nisso tbm
+        opcao = self.verifica_num_int('Escolha a opcao: ', [1, 2, 3, 0])
         return opcao
