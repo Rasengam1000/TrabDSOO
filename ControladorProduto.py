@@ -1,5 +1,5 @@
-from TelaProduto import TelaProdutos
-from Produto import Produto
+from limite.TelaProduto import TelaProdutos
+from entidade.Produto import Produto
 
 
 class ControladorProdutos:
@@ -12,24 +12,35 @@ class ControladorProdutos:
     def produtos(self):
         return self.__produtos
 
-    def incluir_produto(self): #!impedir duplicatas
+    def produtos_disponiveis(self):
+        produto = self.__tela_produtos.mostrar_produtos(self.__produtos)
+        return produto
+
+    def incluir_produto(self):
         codigo,nome,preco = self.__tela_produtos.pegar_info()
-        if codigo == 0:
-            self.__abre_tela
+        tem = 0
+        for produto in self.__produtos:
+            if produto.codigo == int(codigo):
+                print("Um produto já foi registrado com esse código!")
+                tem = 1
+        if tem == 1:
+            self.abre_tela()
         else:
             self.__produtos.append(Produto(codigo,nome,preco))
+            print("Produto inserido com sucesso!")
 
     def excluir_produto(self):
         codigo = self.__tela_produtos.selecionar_produto(self.__produtos)
         for produto in self.__produtos:
             if produto.codigo == codigo:
                 self.__produtos.remove(produto)
-                self.__tela_produtos.printar(f"\n{produto.nome} excluído com sucesso\n")
+                self.__tela_produtos.printar(f"\n{produto.nome} excluído com sucesso")
                 return
 
-        self.__tela_produtos.printar("\nCodigo informado não encontrado!\n")
+        self.__tela_produtos.printar("\nCodigo informado não encontrado!")
 
     def listar_produtos(self):
+        self.__tela_produtos.printar("")
         for produto in self.__produtos:
             self.__tela_produtos.mostrar_info(produto)
 
@@ -41,6 +52,6 @@ class ControladorProdutos:
                         3: self.listar_produtos}
 
         while True:
-            opçao = self.__tela_produtos.opçoes()
+            opçao = self.__tela_produtos.opcoes()
             funçao = lista_opçoes[opçao]
             funçao()

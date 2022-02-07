@@ -1,8 +1,8 @@
-from TelaPrincipal import TelaPrincipal
+from limite.TelaPrincipal import TelaPrincipal
 
-from ControladorClientes import ControladorClientes
-from ControladorProduto import ControladorProdutos
-from ControladorCarrinho import ControladorCarrinho
+from controle.ControladorClientes import ControladorClientes
+from controle.ControladorProduto import ControladorProdutos
+from controle.ControladorCarrinho import ControladorCarrinho
 
 
 class ControladorPrincipal:
@@ -19,18 +19,6 @@ class ControladorPrincipal:
     def encerrar_sistema():
         exit(0)
 
-    @property
-    def controlador_clientes(self):
-       return self.__controlador_clientes
-
-    @property
-    def controlador_produtos(self):
-        return self.__controlador_produtos
-
-    #@property    
-    #def controlador_carrinho(self):
-        #return self.__controlador_clientes
-
     def tela_cliente(self):
         self.__controlador_clientes.abre_tela()
 
@@ -45,6 +33,14 @@ class ControladorPrincipal:
                         0: self.encerrar_sistema}
 
         while True:
-            opçao = self.__tela_sistema.opçoes()
+            opçao = self.__tela_sistema.opcoes()
             funçao = lista_opçoes[opçao]
             funçao()
+
+    @property
+    def controlador_clientes(self):
+       return self.__controlador_clientes
+
+    @property
+    def controlador_produtos(self):
+        return self.__controlador_produtos
