@@ -3,10 +3,6 @@ from abc import ABC, abstractmethod
 class AbstractTela(ABC):
 
     @abstractmethod
-    def __init__(self):
-        pass
-
-    @abstractmethod
     def opcoes(self):
         pass
 
@@ -19,7 +15,7 @@ class AbstractTela(ABC):
                     raise ValueError
                 return inteiro
             except ValueError:
-                print('Valor incorreto: Digite um numero inteiro valido')
+                print('\nValor incorreto: Digite um número inteiro valido!')
                 if inteiros_validos:
                     print('Valores Validos: ', inteiros_validos)
 
@@ -33,7 +29,7 @@ class AbstractTela(ABC):
                 inteiro = int(valor_lido)
                 return inteiro
             except ValueError:
-                print('A opcao so aceita numeros')
+                print('\nA opção só aceita números!')
 
     def verifica_letra(self, mensagem: str = ''):
         while True:
@@ -45,7 +41,7 @@ class AbstractTela(ABC):
                         raise NameError
                 return valor_lido
             except NameError:
-                print('A opcao so aceita letras')
+                print('\nA opção só aceita letras!')
 
     def verifica_resposta(self, mensagem: str = '', respostas: [] = None):
         while True:
@@ -55,6 +51,6 @@ class AbstractTela(ABC):
                     raise ValueError
                 return valor_lido
             except ValueError:
-                print('Resposta incorreta: Digite uma resposta valida')
+                print('\nResposta incorreta: Digite uma resposta válida!')
                 if respostas:
-                    print('Respostas Validas: ', respostas)
+                    print('Respostas Válidas: ', respostas)
