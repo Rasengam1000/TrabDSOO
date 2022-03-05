@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 class AbstractTela(ABC):
 
-    @abstractmethod
+    @abstractmethod #sotestando
     def opcoes(self):
         pass
 
