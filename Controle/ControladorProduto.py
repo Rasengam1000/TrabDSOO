@@ -5,42 +5,45 @@ class ControladorProdutos:
     def __init__(self, controlador_sistema):
         self.__tela_produtos = TelaProdutos()
         self.__controlador_sistema = controlador_sistema
-        self.__produtos = controlador_sistema.persistencia.cache
+        self.__produtos = controlador_sistema.pProduto
 
     @property
     def produtos(self):
-        return self.__produtos
+        return self.__produtos.cache
 
     def produtos_disponiveis(self):
-        produto = self.__tela_produtos.mostrar_produtos(self.__produtos)
+        produto = self.__tela_produtos.mostrar_produtos(self.__produtos.cache)
         return produto
 
     def incluir_produto(self):
-        codigo,nome,preco = self.__tela_produtos.pegar_info()
-        tem = 0
-        for produto in self.__produtos:
-            if produto.codigo == int(codigo):
-                print("Um produto já foi registrado com esse código!")
-                tem = 1
-        if tem == 1:
+        try:
+            codigo,nome,preco = self.__tela_produtos.pegar_info()
+            tem = 0
+            for produto in self.__produtos.cache:
+                if produto.codigo == int(codigo):
+                    print("Um produto já foi registrado com esse código!")
+                    tem = 1
+            if tem == 1:
+                self.abre_tela()
+            else:
+                self.__controlador_sistema.pProduto.add(Produto(codigo,nome,preco))
+                print("Produto inserido com sucesso!")
+        except:
             self.abre_tela()
-        else:
-            self.__controlador_sistema.persistencia.add(Produto(codigo,nome,preco))
-            print("Produto inserido com sucesso!")
 
     def excluir_produto(self):
-        codigo = self.__tela_produtos.selecionar_produto(self.__produtos)
-        for produto in self.__produtos:
+        codigo = self.__tela_produtos.selecionar_produto(self.__produtos.cache)
+        for produto in self.__produtos.cache:
             if produto.codigo == codigo:
-                self.__controlador_sistema.persistencia.remove(produto)
+                self.__controlador_sistema.pProduto.remove(produto)
                 self.__tela_produtos.printar(f"\n{produto.nome} excluído com sucesso")
                 return
 
-        self.__tela_produtos.printar("\nCodigo informado não encontrado!")
+        self.__tela_produtos.printar("\nCódigo informado não encontrado!")
 
     def listar_produtos(self):
         self.__tela_produtos.printar("")
-        for produto in self.__produtos:
+        for produto in self.__produtos.cache:
             self.__tela_produtos.mostrar_info(produto)
 
     def voltar(self):

@@ -12,12 +12,15 @@ class TelaProdutos(AbstractTela):
 
     def pegar_info(self):
         while True:
-            codigo,nome,preco = input("\nQual o código, nome e preço do produto que deseja registrar?: ").split()
+            try:
+                codigo,nome,preco = input("\nQual o código, nome e preço do produto que deseja registrar?: ").split()
+                if not codigo.isnumeric() or not preco.isnumeric():
+                    print("Código e preço devem ser numéricos!")
+                else:
+                    return codigo,nome,preco
+            except:
+                break
 
-            if not codigo.isnumeric() or not preco.isnumeric():
-                print("Código e preço devem ser numéricos!")
-            else:
-                return codigo,nome,preco
     
     def mostrar_info(self, produto):
         print("Código:", produto.codigo, "| Nome:", produto.nome,"| Preço: R$", produto.preco)
