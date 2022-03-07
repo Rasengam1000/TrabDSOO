@@ -4,7 +4,7 @@ from Entidade.Cliente import Cliente
 class ControladorClientes:
 
     def __init__(self, controladorprincipal):
-        self.__controladorprincipal = controladorprincipal #aaaa
+        self.__controladorprincipal = controladorprincipal #aaaad
         self.__telaclientes = TelaClientes()
         self.__clientes = []
 
