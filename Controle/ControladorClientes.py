@@ -82,3 +82,4 @@ class ControladorClientes:
 
         while True:
             lista_opcoes[self.__telaclientes.opcoes()]()
+
