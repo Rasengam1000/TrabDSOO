@@ -6,7 +6,7 @@ class ControladorClientes:
     def __init__(self, controladorprincipal):
         self.__controladorprincipal = controladorprincipal
         self.__telaclientes = TelaClientes()
-        self.__clientes = []
+        self.__clientes = self.__controladorprincipal.pCliente
 
     @property
     def telaclientes(self):
@@ -14,7 +14,7 @@ class ControladorClientes:
 
     @property
     def clientes(self):
-        return self.__clientes
+        return self.__clientes.cache
 
     def incluir_cliente(self):
         dados_cliente = self.__telaclientes.pegar_info()
@@ -23,13 +23,13 @@ class ControladorClientes:
         else:
             cliente = Cliente(dados_cliente['nome'], dados_cliente['sobrenome'], dados_cliente['cpf'],
                               dados_cliente['idade'], dados_cliente['tipo_cliente'])
-            self.__clientes.append(cliente)
+            self.__controladorprincipal.pCliente.add(cliente)
 
     def listar_cliente(self):
-        if self.__clientes == []:
+        if self.__clientes.cache == []:
             self.__telaclientes.mostra_mensagem('\nNão existem clientes registrados')
         else:
-            for cliente in self.__clientes:
+            for cliente in self.__clientes.cache:
                 self.__telaclientes.mostrar_info({'nome': cliente.nome, 'sobrenome': cliente.sobrenome,
                                                   'cpf': cliente.cpf, 'idade': cliente.idade,
                                                   'tipo_cliente': cliente.tipo_cliente})
@@ -38,13 +38,13 @@ class ControladorClientes:
         cpf_cliente = self.__telaclientes.selecionar_cliente()
         cliente = self.escolhe_cliente_por_cpf(cpf_cliente)
         if cliente is not None:
-            self.__clientes.remove(cliente)
+            self.__controladorprincipal.pCliente.remove(cliente)
             self.__telaclientes.mostra_mensagem('\nCliente excluído com sucesso')
         else:
             self.__telaclientes.mostra_mensagem('\nCliente não existente')
 
     def escolhe_cliente_por_cpf(self, cpf: int):
-        for cliente in self.__clientes:
+        for cliente in self.__clientes.cache:
             if cliente.cpf == cpf:
                 return cliente
         return None
