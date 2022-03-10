@@ -1,35 +1,31 @@
-from limite.AbstractTela import AbstractTela
+from Limite.AbstractTela import AbstractTela
+import PySimpleGUI as sg
 
 class TelaClientes(AbstractTela):
 
+    def __init__(self):
+        self.__window = None
+        self.init_components()
+
+    def init_components(self):
+        sg.ChangeLookAndFeel('Reddit')
+        layout = [
+            [sg.Text('escolha as opções')],
+            [sg.Button('Incluir Cliente', key=1)],
+            [sg.Button('Excluir Cliente', key=2)],
+            [sg.Button('Alterar Cadastro', key=3)],
+            [sg.Button('Informacao Cliente', key=4)],
+            [sg.Button('Listar Clientes', key=5)],
+            [sg.Button('Voltar', key=0)]
+        ]
+        self.__window = sg.Window('Clientes').Layout(layout)
+
     def opcoes(self):
-        print('\n----------- Clientes -----------')
-        print('1 - Incluir Cliente')
-        print('2 - Excluir Cliente')
-        print('3 - Alterar Cadastro')
-        print('4 - Informacao Cliente')
-        print('5 - Listar Clientes')
-        print('0 - Retornar')
-        opcao = self.verifica_num_int('Escolha a opção: ', [1, 2, 3, 4, 5, 0])
-        return opcao
+        button, values = self.__window.Read()
+        if button is None:
+            button = 0
+        return button
 
-    def pegar_info(self):
-        print('\nDados Cliente')
-        nome = self.verifica_letra('Nome: ')
-        sobrenome = self.verifica_letra('Sobrenome: ')
-        cpf = self.verifica_algarismo('CPF: ')
-        idade = self.verifica_algarismo('Idade: ')
-        tipo_cliente = self.verifica_resposta('Seria cliente vip ou comum?: ', ['vip', 'comum'])
-
-        return{'nome': nome, 'sobrenome': sobrenome, 'cpf': cpf, 'idade': idade, 'tipo_cliente': tipo_cliente}
-
-    def mostrar_info(self, dados_cliente):
-        print('\nNome do Cliente: ', dados_cliente['nome'])
-        print('Sobrenome do Cliente: ', dados_cliente['sobrenome'])
-        print('CPF do Cliente: ', dados_cliente['cpf'])
-        print('Idade do Cliente: ', dados_cliente['idade'])
-        print('Tipo do CLiente: ', dados_cliente['tipo_cliente'])
-
-    def selecionar_cliente(self):
-        cpf = self.verifica_algarismo('CPF do cliente desejado: ')
-        return cpf
+    def close(self):
+        self.__window.Close()
+        self.init_components()
