@@ -15,14 +15,14 @@ class ControladorClientes:
         self.__telaclientes_cpf = TelaClientesCpf()
         self.__telaclientes_alt = TelaClientesAlt()
         self.__telaclientes_lista = TelaClientesLista()
-        self.__clientes = self.__controladorprincipal.pCliente      #add
+        self.__clientes = self.__controladorprincipal.pCliente
 
     @property
     def telaclientes(self):
         return self.__telaclientes
 
     @property
-    def clientes(self):                     #add
+    def clientes(self):
         return self.__clientes.cache
 
     def incluir_cliente(self):
@@ -38,7 +38,7 @@ class ControladorClientes:
             self.__controladorprincipal.pCliente.add(cliente)
 
     def listar_cliente(self):
-        if self.__clientes.cache == []:         #add .cache
+        if self.__clientes.cache == []:
             self.__telaclientes.show_message('erro', 'Não existem clientes registrados')
         else:
             lista_pra_tela = []
@@ -63,7 +63,7 @@ class ControladorClientes:
                 self.__telaclientes.show_message('erro', 'Cliente não existente')
 
     def escolhe_cliente_por_cpf(self, cpf: int):
-        for cliente in self.__clientes.cache:       #add .cache
+        for cliente in self.__clientes.cache:
             if cliente.cpf == cpf:
                 return cliente
         return None
