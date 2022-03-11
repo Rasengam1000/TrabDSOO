@@ -15,15 +15,16 @@ class ControladorClientes:
         self.__telaclientes_cpf = TelaClientesCpf()
         self.__telaclientes_alt = TelaClientesAlt()
         self.__telaclientes_lista = TelaClientesLista()
-        self.__clientes = self.__controladorprincipal.pCliente
+        self.__clientes = self.__controladorprincipal.pCliente      #add
 
     @property
     def telaclientes(self):
         return self.__telaclientes
 
     @property
-    def clientes(self):
+    def clientes(self):                     #add
         return self.__clientes.cache
+
     def incluir_cliente(self):
         button, dados_cliente = self.__telaclientes_adicionar.open()
         self.__telaclientes_adicionar.close()
@@ -37,7 +38,7 @@ class ControladorClientes:
             self.__controladorprincipal.pCliente.add(cliente)
 
     def listar_cliente(self):
-        if self.__clientes.cache == []:
+        if self.__clientes.cache == []:         #add .cache
             self.__telaclientes.show_message('erro', 'Não existem clientes registrados')
         else:
             lista_pra_tela = []
@@ -50,16 +51,19 @@ class ControladorClientes:
         button, values = self.__telaclientes_cpf.open()
         self.__telaclientes_cpf.close()
         self.checar_botao(button)
-        cpf_cliente = int(values['cpf'])
-        cliente = self.escolhe_cliente_por_cpf(cpf_cliente)
-        if cliente is not None:
-            self.__controladorprincipal.pCliente.remove(cliente)
-            self.__telaclientes.show_message('feito', 'Cliente excluído com sucesso')
+        if not values['cpf'].isnumeric():
+            self.__telaclientes.show_message('erro', 'A opção só aceita numeros')
         else:
-            self.__telaclientes.show_message('erro', 'Cliente não existente')
+            cpf_cliente = int(values['cpf'])
+            cliente = self.escolhe_cliente_por_cpf(cpf_cliente)
+            if cliente is not None:
+                self.__controladorprincipal.pCliente.remove(cliente)
+                self.__telaclientes.show_message('feito', 'Cliente excluído com sucesso')
+            else:
+                self.__telaclientes.show_message('erro', 'Cliente não existente')
 
     def escolhe_cliente_por_cpf(self, cpf: int):
-        for cliente in self.__clientes.cache:
+        for cliente in self.__clientes.cache:       #add .cache
             if cliente.cpf == cpf:
                 return cliente
         return None
@@ -68,34 +72,43 @@ class ControladorClientes:
         button, values = self.__telaclientes_cpf.open()
         self.__telaclientes_cpf.close()
         self.checar_botao(button)
-        cpf_cliente = int(values['cpf'])
-        cliente = self.escolhe_cliente_por_cpf(cpf_cliente)
-        if cliente is not None:
-            dados_cliente = {'nome': cliente.nome, 'sobrenome': cliente.sobrenome, 'idade':cliente.idade}
-            self.__telaclientes_alt.init_components(dados_cliente)
-            botao, novo_cadastro = self.__telaclientes_alt.open()
-            self.__telaclientes_alt.close()
-            self.checar_botao(botao)
-            cliente.nome = novo_cadastro['nome']
-            cliente.sobrenome = novo_cadastro['sobrenome']
-            cliente.idade = novo_cadastro['idade']
-            cliente.tipo_cliente = novo_cadastro['tipo_cliente']
-            self.__telaclientes.show_message('feito', 'Cadastro alterado com sucesso')
+        if not values['cpf'].isnumeric():
+            self.__telaclientes.show_message('erro', 'A opção só aceita numeros')
         else:
-            self.__telaclientes.show_message('erro', 'Cliente não existente')
+            cpf_cliente = int(values['cpf'])
+            cliente = self.escolhe_cliente_por_cpf(cpf_cliente)
+            if cliente is not None:
+                dados_cliente = {'nome': cliente.nome, 'sobrenome': cliente.sobrenome, 'idade':cliente.idade}
+                self.__telaclientes_alt.init_components(dados_cliente)
+                botao, novo_cadastro = self.__telaclientes_alt.open()
+                self.__telaclientes_alt.close()
+                self.checar_botao(botao)
+                if not novo_cadastro['idade'].isnumeric():
+                    self.__telaclientes.show_message('erro', 'A opção só aceita numeros')
+                else:
+                    cliente.nome = novo_cadastro['nome']
+                    cliente.sobrenome = novo_cadastro['sobrenome']
+                    cliente.idade = int(novo_cadastro['idade'])
+                    cliente.tipo_cliente = novo_cadastro['tipo_cliente']
+                    self.__telaclientes.show_message('feito', 'Cadastro alterado com sucesso')
+            else:
+                self.__telaclientes.show_message('erro', 'Cliente não existente')
 
     def info_cliente(self):
         button, values = self.__telaclientes_cpf.open()
         self.__telaclientes_cpf.close()
         self.checar_botao(button)
-        cpf_cliente = int(values['cpf'])
-        cliente = self.escolhe_cliente_por_cpf(cpf_cliente)
-        if cliente is not None:
-            lista_pra_tela = [[cliente.nome, cliente.sobrenome, cliente.cpf, cliente.idade, cliente.tipo_cliente]]
-            self.__telaclientes_lista.init_components(lista_pra_tela)
-            self.__telaclientes_lista.open()
+        if not values['cpf'].isnumeric():
+            self.__telaclientes.show_message('erro', 'A opção só aceita numeros')
         else:
-            self.__telaclientes.show_message('erro', 'Cliente não existente')
+            cpf_cliente = int(values['cpf'])
+            cliente = self.escolhe_cliente_por_cpf(cpf_cliente)
+            if cliente is not None:
+                lista_pra_tela = [[cliente.nome, cliente.sobrenome, cliente.cpf, cliente.idade, cliente.tipo_cliente]]
+                self.__telaclientes_lista.init_components(lista_pra_tela)
+                self.__telaclientes_lista.open()
+            else:
+                self.__telaclientes.show_message('erro', 'Cliente não existente')
 
     def retornar(self):
         self.__controladorprincipal.abre_tela()
