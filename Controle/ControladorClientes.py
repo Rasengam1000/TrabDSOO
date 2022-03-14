@@ -15,11 +15,15 @@ class ControladorClientes:
         self.__telaclientes_cpf = TelaClientesCpf()
         self.__telaclientes_alt = TelaClientesAlt()
         self.__telaclientes_lista = TelaClientesLista()
-        self.__clientes = self.__controladorprincipal.pCliente
+        self.__clientes = self.__controladorprincipal.DAOcliente
 
     @property
     def telaclientes(self):
         return self.__telaclientes
+
+    @property
+    def telaclientes_cpf(self):
+        return self.__telaclientes_cpf
 
     @property
     def clientes(self):
@@ -35,7 +39,7 @@ class ControladorClientes:
             cliente = Cliente(dados_cliente['nome'], dados_cliente['sobrenome'], int(dados_cliente['cpf']),
                                   int(dados_cliente['idade']), dados_cliente['tipo_cliente'])
             self.__telaclientes.show_message('feito', 'Cliente Cadastrado')
-            self.__controladorprincipal.pCliente.add(cliente)
+            self.__controladorprincipal.DAOcliente.add(cliente)
 
     def listar_cliente(self):
         if self.__clientes.cache == []:
@@ -57,7 +61,7 @@ class ControladorClientes:
             cpf_cliente = int(values['cpf'])
             cliente = self.escolhe_cliente_por_cpf(cpf_cliente)
             if cliente is not None:
-                self.__controladorprincipal.pCliente.remove(cliente)
+                self.__controladorprincipal.DAOcliente.remove(cliente)
                 self.__telaclientes.show_message('feito', 'Cliente excluído com sucesso')
             else:
                 self.__telaclientes.show_message('erro', 'Cliente não existente')

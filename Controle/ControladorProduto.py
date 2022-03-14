@@ -21,19 +21,21 @@ class ControladorProdutos:
     def produtos_disponiveis(self):
         produtos_mostrar = []
         for produto in self.__produtos.cache:
-            produto_texto = f"{produto.codigo} - {produto.nome} - R$ {produto.preco}"
+            produto_texto = produto.codigo, produto.nome, f"R${produto.preco}"
             produtos_mostrar.append(produto_texto)
         botao, produto_selecionado = self.__tela_produtos.selecionar_produto(produtos_mostrar)
+        
         try:
-            produto_selecionado = produto_selecionado[0][0].split()     #entrar no dicionario e entrar na lista e pegar a string
+            print(produto_selecionado)
+            produto_selecionado = produto_selecionado[0][0][0]     #entrar no dicionario e entrar na lista e pegar a string
         except:
             self.__tela_produtos.close_selecionarwindow()
         else:
-            
             if botao == 1:
+                print("botao1")
                 for produto in self.__produtos.cache:
-                    if produto.codigo == int(produto_selecionado[0]):
-
+                    if produto.codigo == int(produto_selecionado):
+                        print("produto sendo inserido")
                         return produto
 
                 self.__tela_produtos.printar("\nCódigo informado não encontrado!")
@@ -43,9 +45,10 @@ class ControladorProdutos:
 
     def incluir_produto(self):
         try:
+            self.__tela_produtos.close()
             codigo,nome,preco = self.__tela_produtos.pegar_info()[1].values()
-            self.__tela_produtos.close_getinfo()
             tem = 0
+
             for produto in self.__produtos.cache:
                 if produto.codigo == int(codigo):
                     self.__tela_produtos.printar("Um produto já foi registrado com esse código!")
@@ -53,16 +56,21 @@ class ControladorProdutos:
             if tem == 1:
                 self.abre_tela()
             else:
+                print("hora de inserir")
                 self.__produtos.add(Produto(codigo,nome,preco))
                 self.__tela_produtos.printar("Produto inserido com sucesso!")
+
+            self.__tela_produtos.close_getinfo()
         except:
-            pass
+            self.__tela_produtos.close_getinfo()
 
     def excluir_produto(self):
         produtos_mostrar = []
         for produto in self.__produtos.cache:
-            produto_texto = f"{produto.codigo} - {produto.nome} - R$ {produto.preco}"
+            produto_texto = f"{produto.codigo} | {produto.nome} | R${produto.preco}"
             produtos_mostrar.append(produto_texto)
+
+        self.__tela_produtos.close()
         botao, produto_selecionado = self.__tela_produtos.selecionar_produto(produtos_mostrar)
 
         try:
@@ -85,8 +93,10 @@ class ControladorProdutos:
     def listar_produtos(self):
         produtos_mostrar = []
         for produto in self.__produtos.cache:
-            produto_texto = f"{produto.codigo} - {produto.nome} - R$ {produto.preco}"
+            produto_texto = produto.codigo, produto.nome, f"R${produto.preco}"
             produtos_mostrar.append(produto_texto)
+
+        self.__tela_produtos.close()
         botao = self.__tela_produtos.mostrar_info(produtos_mostrar)
 
         if botao[0] == "00":
@@ -96,7 +106,6 @@ class ControladorProdutos:
         self.__tela_produtos.close()
 
     def abre_tela(self):
-        print("abretelaproduto")
         lista_opçoes = {0: self.voltar, 1: self.incluir_produto, 2: self.excluir_produto, 
                         3: self.listar_produtos}
 

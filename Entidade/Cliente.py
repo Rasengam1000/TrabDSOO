@@ -1,4 +1,4 @@
-from entidade.Carrinho import Carrinho
+from Entidade.Carrinho import Carrinho
 
 class Cliente:
 

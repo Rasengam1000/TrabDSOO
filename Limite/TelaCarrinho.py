@@ -24,7 +24,7 @@ class TelaCarrinho:
         sg.ChangeLookAndFeel("Reddit")
         layout = [
                     [sg.Button("Incluir\nCompra", key=1, size=(10,5)), sg.Button("Excluir\nCompra", key=2, size=(10,5))],
-                    [sg.Button("Listar\nCompras", key=3, size=(10,5)), sg.Button("Pagamento", key=4, size=(10,5))],
+                    [sg.Button("Pagamento", key=4, size=(10,5))],
                     [sg.Button("Voltar", key=0)]
         ]
 
@@ -39,43 +39,27 @@ class TelaCarrinho:
     def close(self):
         self.__mainwindow.close()
 
-    def close_getinfo(self):
-        self.__getinfowindow.close()
+    def close_pagar(self):
+        self.__pagar.close()
 
-    def close_info(self):
+    def close_infowindow(self):
         self.__infowindow.close()
 
     def close_selecionarwindow(self):
         self.__selecionarwindow.Close()
 
-    def pegar_info(self):
+    def close_getinfo(self):
+        self.__getinfowindow.close()
+
+    def pegar_resposta(self,msg):
         info = [
-                    [sg.Text("Qual o código, nome e preço do produto que deseja registrar?")],
-                    [sg.Text("Código"), sg.InputText()],
-                    [sg.Text("Nome"), sg.InputText()],
-                    [sg.Text("Preço"), sg.InputText()],
+                    [sg.Text(msg), sg.InputText()],
                     [sg.Button("Voltar", key=0), sg.Button("Enviar")]
         ]
 
-
         self.__getinfowindow = sg.Window("Inserir Produto").Layout(info)
 
-        return self.__getinfowindow.Read()
-
-
-    def printar(self, mensagem):
-        sg.Popup(mensagem)
-
-    def mostrar_info(self, carrinho_mostrar):
-        info = [
-                    [sg.Text("Carrinho:")],
-                    [sg.Listbox(values=(carrinho_mostrar), size=(30, len(carrinho_mostrar)))],
-                    [sg.Button("Voltar", key=0)]
-        ]
-
-        self.__infowindow = sg.Window("Info Carrinho").Layout(info)
-
-        return self.__infowindow.Read()
+        return self.__getinfowindow.read()
 
     def selecionar_produto(self, carrinho_mostrar):
         info = [
@@ -90,12 +74,35 @@ class TelaCarrinho:
         return self.__selecionarwindow.Read()
 
     def mostrar_extrato(self,extrato,total):
-        print(f"".ljust(39,"-"))
+        info = [
+                    [sg.Text("Extrato:")],
+                    [sg.Table(values=extrato, headings=["Nome do Produto", "Preço"],
+                                auto_size_columns=True,
+                                justification='left',
+                                num_rows=15,
+                                alternating_row_color='lightblue',)],
+                    [sg.Text(f"Total: {total}")],[sg.Button("Voltar", key=0)]
+        ]
 
-        for linha in extrato:         #imprime o extrato
-            print(f"| {linha:35} |")
+        self.__infowindow = sg.Window("Info Carrinho").Layout(info)
 
-        print(f"".ljust(39,"-"))
+        return self.__infowindow.Read()
 
+    def pagar(self,extrato,total):
+        info = [
+                    [sg.Text("Extrato:")],
+                    [sg.Table(values=extrato, headings=["Nome do Produto", "Preço"],
+                                auto_size_columns=True,
+                                justification='left',
+                                num_rows=15,
+                                alternating_row_color='lightblue',)],
+                    [sg.Text(f"Total: {total}")],
+                    [sg.Button("Voltar", key=0), sg.Button("Pagar", key=1)]
+        ]
 
-        print("\033[1;38;2;0;150;0m" f"\nTotal: R$ {total}" "\033[0m")
+        self.__infowindow = sg.Window("Info Carrinho").Layout(info)
+
+        return self.__infowindow.Read()
+
+    def printar(self, mensagem):
+        sg.Popup(mensagem)

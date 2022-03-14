@@ -1,7 +1,7 @@
 class Produto:
     def __init__(self, codigo: int, nome: str, preco: float):
-        self.__codigo = int(codigo)
-        self.__nome = str(nome).title()
+        self.__codigo = int(codigo.strip())
+        self.__nome = str(nome).title().strip()
         self.__preco = float(preco)
 
     @property
