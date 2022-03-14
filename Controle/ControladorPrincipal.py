@@ -59,6 +59,7 @@ class ControladorPrincipal:
         while True:
             opçao = self.__tela_sistema.opcoes()
             funçao = lista_opçoes[opçao]
+            self.__tela_sistema.close()
             funçao()
 
     @property
