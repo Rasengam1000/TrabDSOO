@@ -1,22 +1,20 @@
 import pickle
-from Persistencia.pAbstrato import Pabstrato
+from Persistencia.DAOabstrato import DAOabstrato
 from Entidade.Cliente import Cliente
 
 
-class Pcliente(Pabstrato):
-    def __init__(self, persistenciamain):
-        super().__init__(persistenciamain)
+class DAOcliente(DAOabstrato):
+    def __init__(self):
+        super().__init__("clientes")
 
-    def guardar(self):
+
+    def atualizar_carrinho(self):
         super().guardar("clientes")
-
-    def abrir(self):
-        super().abrir("clientes")
 
     def add(self, objeto: Cliente):
         if objeto != None and isinstance(objeto, Cliente):
-            super().add(objeto)
+            super().add(objeto, "clientes")
 
     def remove(self, objeto: Cliente):
         if objeto != None and isinstance(objeto, Cliente):
-            super().remove(objeto)
+            super().remove(objeto, "clientes")

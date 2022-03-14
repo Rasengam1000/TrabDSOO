@@ -1,47 +1,93 @@
+import PySimpleGUI as sg
 from Limite.AbstractTela import AbstractTela
 import time
+#testar table
+#https://github.com/PySimpleGUI/PySimpleGUI/blob/master/DemoPrograms/Demo_Table_Element.py
 
-class TelaCarrinho(AbstractTela):
+
+class TelaCarrinho:
+    def __init__(self):
+        self.__mainwindow = None
+        self.__getinfowindow = None
+        self.__infowindow = None
+        self.__selecionarwindow = None
+        self.init_tela() 
+
+
+    @property
+    def mainwindow(self):
+        if self.__mainwindow != None:
+            return self.__mainwindow
+
+            
+    def init_tela(self):
+        sg.ChangeLookAndFeel("Reddit")
+        layout = [
+                    [sg.Button("Incluir\nCompra", key=1, size=(10,5)), sg.Button("Excluir\nCompra", key=2, size=(10,5))],
+                    [sg.Button("Listar\nCompras", key=3, size=(10,5)), sg.Button("Pagamento", key=4, size=(10,5))],
+                    [sg.Button("Voltar", key=0)]
+        ]
+
+
+        self.__mainwindow = sg.Window("Tela Carrinho", default_element_size=()).Layout(layout)
+
 
     def opcoes(self):
-        print("\n----------- Carrinho ----------\n1 - Incluir compra \n2 - Excluir compra" 
-                "\n3 - Listar compras\n4 - Pagamento \n0 - Voltar")
-        
-        opçao = self.verifica_num_int("Escolha a opção: ", [0,1,2,3,4])
+        self.init_tela() 
+        return self.__mainwindow.read()
 
-        return opçao
+    def close(self):
+        self.__mainwindow.close()
+
+    def close_getinfo(self):
+        self.__getinfowindow.close()
+
+    def close_info(self):
+        self.__infowindow.close()
+
+    def close_selecionarwindow(self):
+        self.__selecionarwindow.Close()
+
+    def pegar_info(self):
+        info = [
+                    [sg.Text("Qual o código, nome e preço do produto que deseja registrar?")],
+                    [sg.Text("Código"), sg.InputText()],
+                    [sg.Text("Nome"), sg.InputText()],
+                    [sg.Text("Preço"), sg.InputText()],
+                    [sg.Button("Voltar", key=0), sg.Button("Enviar")]
+        ]
 
 
-    def mostrar_info(self, compras):
-        for i in range(len(compras)):
-            print(f"\n{i+1}", "-", compras[i].nome)
+        self.__getinfowindow = sg.Window("Inserir Produto").Layout(info)
 
-        while True:
-            escolha = int(input("\nQual produto deseja excluir?: "))
-
-            if escolha < 1 or escolha > len(compras):
-                print(f"O número escolhido deve estar entre 1 e {len(compras)}")
-            else:
-                return compras[escolha-1]
-        
-
-    def mostrar_carrinho(self, compras):
-        for produto in compras:
-            print("\nCódigo:", produto.codigo, "| Nome:", produto.nome,"| Preço: R$", produto.preco)
+        return self.__getinfowindow.Read()
 
 
-    def printar(self, texto):
-        print(texto)
+    def printar(self, mensagem):
+        sg.Popup(mensagem)
 
-    def formas_pagamento(self):
-        forma  = self.verifica_num_int("\nQual forma de pagamento deseja utilizar?:\n1 - Cartão \n2 - Dinheiro \n",
-                                        [1,2])
+    def mostrar_info(self, carrinho_mostrar):
+        info = [
+                    [sg.Text("Carrinho:")],
+                    [sg.Listbox(values=(carrinho_mostrar), size=(30, len(carrinho_mostrar)))],
+                    [sg.Button("Voltar", key=0)]
+        ]
 
-        print("Aguardando Pagamento...")
-        time.sleep(2)
-        pagou = self.verifica_resposta("A conta foi paga? (S/N): ", ["S", "N", "s", "n"]).upper()
+        self.__infowindow = sg.Window("Info Carrinho").Layout(info)
 
-        return pagou
+        return self.__infowindow.Read()
+
+    def selecionar_produto(self, carrinho_mostrar):
+        info = [
+                    [sg.Text("Selecione o produto para excluir do carrinho")],
+                    [sg.Listbox(values=(carrinho_mostrar), size=(30, len(carrinho_mostrar)))],
+                    [sg.Button("Selecionar", key=1)],
+                    [sg.Button("Voltar", key=0)]
+        ]
+
+        self.__selecionarwindow = sg.Window("Excluir Produto").Layout(info)
+
+        return self.__selecionarwindow.Read()
 
     def mostrar_extrato(self,extrato,total):
         print(f"".ljust(39,"-"))

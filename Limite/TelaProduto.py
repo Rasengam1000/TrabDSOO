@@ -1,56 +1,90 @@
+import PySimpleGUI as sg
 from Limite.AbstractTela import AbstractTela
+import time
+#testar table
+#https://github.com/PySimpleGUI/PySimpleGUI/blob/master/DemoPrograms/Demo_Table_Element.py
 
-class TelaProdutos(AbstractTela):
+
+class TelaProdutos:
+    def __init__(self):
+        self.__mainwindow = None
+        self.__getinfowindow = None
+        self.__infowindow = None
+        self.__selecionarwindow = None
+        self.init_tela() 
+
+
+    @property
+    def mainwindow(self):
+        if self.__mainwindow != None:
+            return self.__mainwindow
+
+
+    def init_tela(self):
+        sg.ChangeLookAndFeel("Reddit")
+        layout = [
+                    [sg.Button("Inserir\nProduto", key=1, size=(10,5)), sg.Button("Excluir\nProduto", key=2, size=(10,5)), sg.Button("Listar\nProdutos", key=3, size=(10,5))],
+                    [sg.Button("Voltar", key=0)]
+        ]
+
+
+        self.__mainwindow = sg.Window("Tela Produtos", default_element_size=()).Layout(layout)
+
 
     def opcoes(self):
-        print("\n----------- Produtos -----------\n1 - Inserir produto \n2 - Excluir produto"
-                "\n3 - Listar produtos \n0 - Voltar ")
+        self.init_tela() 
+        return self.__mainwindow.read()
 
-        opçao = self.verifica_num_int("Escolha a opção: ", [0,1,2,3])
+    def close(self):
+        self.__mainwindow.close()
 
-        return opçao
+    def close_getinfo(self):
+        self.__getinfowindow.close()
+
+    def close_info(self):
+        self.__infowindow.close()
+
+    def close_selecionarwindow(self):
+        self.__selecionarwindow.Close()
 
     def pegar_info(self):
-        while True:
-            try:
-                codigo,nome,preco = input("\nQual o código, nome e preço do produto que deseja registrar?: ").split()
-                if not codigo.isnumeric() or not preco.isnumeric():
-                    print("Código e preço devem ser numéricos!")
-                else:
-                    return codigo,nome,preco
-            except:
-                break
-
-    
-    def mostrar_info(self, produto):
-        print("Código:", produto.codigo, "| Nome:", produto.nome,"| Preço: R$", produto.preco)
-    
-
-    def mostrar_produtos(self, produtos):
-        print("Produtos disponíveis: ")
-        i=0
-        for produto in produtos:
-            i += 1
-            print(f"\n{i}", "| Nome:", produto.nome,"| Preço: R$", produto.preco)
-
-        while True:
-            escolha = int(input("\nSelecione um produto: "))
-            if escolha < 1 or escolha > len(produtos):
-                print(f"O número escolhido deve estar entre 1 e {len(produtos)}")
-            else:
-                return produtos[escolha-1]
+        info = [
+                    [sg.Text("Qual o código, nome e preço do produto que deseja registrar?")],
+                    [sg.Text("Código"), sg.InputText()],
+                    [sg.Text("Nome"), sg.InputText()],
+                    [sg.Text("Preço"), sg.InputText()],
+                    [sg.Button("Voltar", key=0), sg.Button("Enviar")]
+        ]
 
 
-    def selecionar_produto(self, produtos):
-        for produto in produtos:
-            print("Código:", produto.codigo, "| Nome:", produto.nome,"| Preço: R$", produto.preco)
-            
-        codigo = int(input("Digite o código do produto: "))
+        self.__getinfowindow = sg.Window("Inserir Produto").Layout(info)
 
-        return codigo
+        return self.__getinfowindow.Read()
 
-    def printar(self, texto):
-        print(texto)
 
-    
-        
+    def printar(self, mensagem):
+        sg.Popup(mensagem)
+
+    def mostrar_info(self, produtos_mostrar):
+        info = [
+                    [sg.Text("Produtos Disponíveis")],
+                    [sg.Listbox(values=(produtos_mostrar), size=(30, len(produtos_mostrar)))],
+                    [sg.Button("Voltar", key=0)]
+        ]
+
+        self.__infowindow = sg.Window("Info Produtos").Layout(info)
+
+        return self.__infowindow.Read()
+
+    def selecionar_produto(self, produtos_mostrar):
+        info = [
+                    [sg.Text("Selecione o Produto")],
+                    [sg.Listbox(values=(produtos_mostrar), size=(30, len(produtos_mostrar)))],
+                    [sg.Button("Selecionar", key=1)],
+                    [sg.Button("Voltar", key=0)]
+        ]
+
+        self.__selecionarwindow = sg.Window("Produtos").Layout(info)
+
+        return self.__selecionarwindow.Read()
+
