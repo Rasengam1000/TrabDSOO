@@ -1,6 +1,7 @@
 from Limite.AbstractTela import AbstractTela
 import PySimpleGUI as sg
 from Limite.CaracteresNumericosException import CaracteresNumericosException
+from Limite.CaracteresAlfabeticosException import CaracteresAlfabeticosException
 
 
 class TelaClientesAdc(AbstractTela):
@@ -34,9 +35,13 @@ class TelaClientesAdc(AbstractTela):
             try:
                 if not values['cpf'].isnumeric() or not values['idade'].isnumeric():
                     raise CaracteresNumericosException
+                if not values['nome'].isalpha() or not values['sobrenome'].isalpha():
+                    raise CaracteresAlfabeticosException
                 return button, values
             except CaracteresNumericosException as e:
                 self.show_message('Erro', e)
+            except CaracteresAlfabeticosException as b:
+                self.show_message('Erro', b)
 
     def close(self):
         self.__window.Close()
