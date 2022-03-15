@@ -15,7 +15,7 @@ class ControladorClientes:
         self.__telaclientes_cpf = TelaClientesCpf()
         self.__telaclientes_alt = TelaClientesAlt()
         self.__telaclientes_lista = TelaClientesLista()
-        self.__clientes = self.__controladorprincipal.DAOcliente
+        self.__clientes = self.__controladorprincipal.dados_cliente #mudar para clienteDAO
 
     @property
     def telaclientes(self):
@@ -68,7 +68,7 @@ class ControladorClientes:
 
     def escolhe_cliente_por_cpf(self, cpf: int):
         for cliente in self.__clientes.cache:
-            if cliente.cpf == cpf:
+            if cliente.cpf == int(cpf):
                 return cliente
         return None
 
@@ -93,8 +93,9 @@ class ControladorClientes:
                     cliente.nome = novo_cadastro['nome']
                     cliente.sobrenome = novo_cadastro['sobrenome']
                     cliente.idade = int(novo_cadastro['idade'])
-                    cliente.tipo_cliente = novo_cadastro['tipo_cliente']
+                    cliente.tipo_cliente = novo_cadastro['tipo_cliente'].upper()
                     self.__telaclientes.show_message('feito', 'Cadastro alterado com sucesso')
+                    self.__clientes.atualizar_carrinho()
             else:
                 self.__telaclientes.show_message('erro', 'Cliente não existente')
 

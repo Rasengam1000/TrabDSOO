@@ -36,7 +36,7 @@ class TelaClientesAdc(AbstractTela):
                 if not values['cpf'].isnumeric() or not values['idade'].isnumeric():
                     raise CaracteresNumericosException
                 if not values['nome'].isalpha() or not values['sobrenome'].isalpha():
-                    raise CaracteresAlfabeticosException
+                    self.show_message('Erro', e)
                 return button, values
             except CaracteresNumericosException as e:
                 self.show_message('Erro', e)

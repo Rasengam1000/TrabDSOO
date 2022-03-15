@@ -8,7 +8,7 @@ class TelaClientesLista(AbstractTela):
 
     def init_components(self, lista_clientes):
         sg.ChangeLookAndFeel('Reddit')
-        headings = ['Nome', 'Sobrenome', 'CPF', 'Idade', 'Tipo']
+        headings = ['Nome', 'Sobrenome', 'CPF', 'Idade', '  Tipo  ']
         layout = [
             [sg.Table(values=lista_clientes, headings=headings, max_col_width=35,
                     auto_size_columns=True,

@@ -53,7 +53,7 @@ class TelaProdutos:
                     [sg.Text("Código"), sg.InputText()],
                     [sg.Text("Nome"), sg.InputText()],
                     [sg.Text("Preço"), sg.InputText()],
-                    [sg.Button("Voltar", key=0), sg.Button("Enviar")]
+                    [sg.Button("Voltar", key=0), sg.Button("Enviar", key=1)]
         ]
 
 
@@ -69,14 +69,13 @@ class TelaProdutos:
             codigo = valores[0][0]
             preço = valores[0][2]
             try:
-                if not codigo.isnumeric() or not codigo.isnumeric():
+                if not codigo.isnumeric() or not preço.isnumeric():
                     raise CaracteresNumericosException
 
             except CaracteresNumericosException:
                 self.printar("Código e preço devem ser numéricos")
             else:
                 break
-
         return read
             
 

@@ -24,7 +24,7 @@ class TelaCarrinho:
         sg.ChangeLookAndFeel("Reddit")
         layout = [
                     [sg.Button("Incluir\nCompra", key=1, size=(10,5)), sg.Button("Excluir\nCompra", key=2, size=(10,5))],
-                    [sg.Button("Pagamento", key=4, size=(10,5))],
+                    [sg.Button("Pagamento", key=4, size=(22,5))],
                     [sg.Button("Voltar", key=0)]
         ]
 

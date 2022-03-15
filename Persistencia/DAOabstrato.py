@@ -23,7 +23,6 @@ class DAOabstrato(ABC):
         return self.__guardar
 
     def __guardar(self, tipo):                       #guarda na lista principal e grava no disco
-        print(self.__cache)
         self.__main.guardar([tipo, self.__cache])
 
     def __abrir(self, tipo):

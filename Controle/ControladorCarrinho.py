@@ -87,41 +87,42 @@ class ControladorCarrinho:
     def pagamento(self):
         botao, cpf = self.__tela_clientes_cpf.open()
         self.__tela_clientes_cpf.close()
-        cpf = int(cpf["cpf"])
-        cliente = self.__controlador_sistema.controlador_clientes.escolhe_cliente_por_cpf(cpf)
+        if botao != "sair" and cpf["cpf"] != "cpf" and botao != sg.WIN_CLOSED:
+            cpf = int(cpf["cpf"])
+            cliente = self.__controlador_sistema.controlador_clientes.escolhe_cliente_por_cpf(cpf)
+            if cliente != None:
+                while True:
+                    extrato, total = self.extrato(cliente)
 
-        while True:
-            extrato, total = self.extrato(cliente)
-
-            if cliente.tipo_cliente == "VIP":
-                botao, valor = self.__tela_carrinho.pagar(cliente.carrinho.extrato, f"{0.75*total} (VIP - Desconto aplicado!)")
-            else:
-                botao, valor = self.__tela_carrinho.pagar()(cliente.carrinho.extrato, total)
+                    if cliente.tipo_cliente == "VIP":
+                        botao, valor = self.__tela_carrinho.pagar(cliente.carrinho.extrato, f"{0.75*total} (VIP - Desconto aplicado!)")
+                    else:
+                        botao, valor = self.__tela_carrinho.pagar(cliente.carrinho.extrato, total)
 
 
-            if botao == 1:
-                cliente.carrinho.compras.clear()
-                botao, excluir = self.__tela_carrinho.pegar_resposta("Deseja excluir a conta? (S/N): ")
-                self.__tela_carrinho.close_getinfo()
-                print(excluir)
-                if excluir[0] == "S" or excluir[0] == "s":
-                    self.__controlador_sistema.DAOcliente.remove(cliente)
-                    self.__tela_carrinho.printar("Cliente excluído com sucesso")
+                    if botao == 1:
+                        cliente.carrinho.compras.clear()
+                        botao, excluir = self.__tela_carrinho.pegar_resposta("Deseja excluir a conta? (S/N): ")
+                        self.__tela_carrinho.close_getinfo()
+                        print(excluir)
+                        if excluir[0] == "S" or excluir[0] == "s":
+                            self.__controlador_sistema.DAOcliente.remove(cliente)
+                            self.__tela_carrinho.printar("Cliente excluído com sucesso")
+                            break
                     break
             else:
-                self.__tela_carrinho.close_getinfo()
-            break
+                self.__tela_carrinho.printar("CPF não existente")
 
     def extrato(self,cliente):
         total = 0
 
         cliente.carrinho.extrato.clear()
-        if cliente.carrinho.compras != [] and cliente.carrinho.compras != None:
-            print(cliente.carrinho.compras)
+        if cliente.carrinho.compras != [] and cliente.carrinho.compras != [None]:
+
             for produto in cliente.carrinho.compras:                                        #calculo extrato/preços
                 cliente.carrinho.extrato.append(f"{produto.nome} R${produto.preco}")
                 total += produto.preco
-        return cliente.carrinho.extrato.append, total
+        return cliente.carrinho.extrato, total
 
     def voltar(self):
         self.__controlador_sistema.abre_tela()

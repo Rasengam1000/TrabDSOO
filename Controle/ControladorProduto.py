@@ -26,16 +26,15 @@ class ControladorProdutos:
         botao, produto_selecionado = self.__tela_produtos.selecionar_produto(produtos_mostrar)
         
         try:
-            print(produto_selecionado)
+
             produto_selecionado = produto_selecionado[0][0][0]     #entrar no dicionario e entrar na lista e pegar a string
         except:
             self.__tela_produtos.close_selecionarwindow()
         else:
             if botao == 1:
-                print("botao1")
+
                 for produto in self.__produtos.cache:
                     if produto.codigo == int(produto_selecionado):
-                        print("produto sendo inserido")
                         return produto
 
                 self.__tela_produtos.printar("\nCódigo informado não encontrado!")
@@ -46,23 +45,28 @@ class ControladorProdutos:
     def incluir_produto(self):
         try:
             self.__tela_produtos.close()
-            codigo,nome,preco = self.__tela_produtos.pegar_info()[1].values()
-            tem = 0
+            info = self.__tela_produtos.pegar_info()
+            codigo,nome,preco = info[1].values()
+            if info[0] == "00":
+                raise Exception
 
-            for produto in self.__produtos.cache:
-                if produto.codigo == int(codigo):
-                    self.__tela_produtos.printar("Um produto já foi registrado com esse código!")
-                    tem = 1
-            if tem == 1:
-                self.abre_tela()
             else:
-                print("hora de inserir")
-                self.__produtos.add(Produto(codigo,nome,preco))
-                self.__tela_produtos.printar("Produto inserido com sucesso!")
+                tem = 0
+                for produto in self.__produtos.cache:
+                    if produto.codigo == int(codigo):
+                        self.__tela_produtos.printar("Um produto já foi registrado com esse código!")
+                        self.__tela_produtos.close_getinfo()
+                        tem = 1
+                if tem == 1:
+                    self.abre_tela()
+                else:
+                    self.__produtos.add(Produto(codigo,nome,preco))
+                    self.__tela_produtos.printar("Produto inserido com sucesso!")
 
-            self.__tela_produtos.close_getinfo()
+                self.__tela_produtos.close_getinfo()
         except:
             self.__tela_produtos.close_getinfo()
+
 
     def excluir_produto(self):
         produtos_mostrar = []
